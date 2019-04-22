@@ -1,5 +1,5 @@
 import axios from 'axios'
-/* eslint-disable */
+
 const state = {
     todos: []
 }
@@ -10,16 +10,23 @@ const getters = {
 
 const actions = {
     async fetchTodos({ commit }) {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/todos')
+        const response = 
+            await axios.get('http://my-json-server.typicode.com/typicode/demo/posts')
         commit('setTodos', response.data)
     },
-    async addTodo() {
-        
+    async addTodo({ commit }, title) {
+        const response = 
+            await axios.post('http://my-json-server.typicode.com/typicode/demo/posts', {
+                title,
+                completed: false
+            });
+        commit('newTodo', response.data)
     }
 }
 
 const mutations = {
-    setTodos: (state, todos) => (state.todos = todos)
+    setTodos: (state, todos) => (state.todos = todos),
+    newTodo: (state, todo) => state.todos.unshift(todo)
 }
 
 export default {
